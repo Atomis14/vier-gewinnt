@@ -1,3 +1,3 @@
 # Vier Gewinnt
 
-Vier Gewinnt in MatLab für EF Informatik
+Vier Gewinnt KI in MatLab für EF Informatik

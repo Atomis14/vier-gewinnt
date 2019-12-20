@@ -1,17 +1,18 @@
-function evaluateBoard()
-%Hat jemand gewonnen? Geraden und Diagonalen überprüfen und ob Spielfeld
+function [isOver, finscore] = evaluateBoard(board)
+board = zeros(6,7);
+%Hat jemand gewonnen? Geraden und Diagonalen ueberpruefen und ob Spielfeld
 %voll
-% Spielfeld-Matrize als Übergabewert
-%TODO Reihen überprüfen
+%board: Spielfeld-Matrize als Uebergabewert, isOver: Spielstand, finscore: minimax-auszahlung/ wer gewonnen hat 
+
+%TODO Reihen ueberpruefen
 
 
-%TODO Kolonnen überprüfen
+%TODO Kolonnen ueberpruefen
 
 
-%TODO Diagonalen überprüfen
+%TODO Diagonalen ueberpruefen; mit diag arbeiten
 
 
-matri = [1 2 3 4];
-matri
-return
+
+
 end

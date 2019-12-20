@@ -3,9 +3,12 @@
 %voll
 %board: Spielfeld-Matrize als Uebergabewert, isOver: Spielstand, finscore: minimax-auszahlung/ wer gewonnen hat 
 
+isOver = NaN;
+finscore = NaN;
 
-board = zeros(6,7);
-board(1:4, 2) = -1
+%board = zeros(6,7);
+%board(1:4, 2) = -1
+board = fliplr(diag([0 0 -1 -1 -1 -1 0]));
 
 
 %Reihen ueberpruefen
@@ -14,7 +17,7 @@ for row = 1:6
         if abs(sum(board(row, col:col+3))) == 4
             isOver = 1;
             finscore = board(row,col);
-            return
+            %return
         end
     end
 end
@@ -25,16 +28,29 @@ for col = 1:7
         if abs(sum(board(row:row+3,col))) == 4
             isOver = 1;
             finscore = board(row,col);
-            return
+            %return
         end
     end
 end
 
 %TODO Diagonalen ueberpruefen; mit diag arbeiten
 
-for i = -2:2 %diagonale geraden
-    diagonal = diag(board,i);
-    abs(sum(diagonal(i+2:i+5))) == 4;
+for i = -3:3 %diagonale geraden
+    diagonalL = diag(board,i);
+    diagonalR = diag(fliplr(board),i);
+    for k = 1:(length(diagonalL)-3)
+        if abs(sum(diagonalL(k:k+3))) == 4
+            disp("Die 4er-Reihe liegt in der LINKEN Diagonale")
+            isOver = 1
+            finscore = diagonalL(k)
+            break
+        elseif abs(sum(diagonalR(k:k+3))) == 4
+            disp("Die 4er-Reihe liegt in der RECHTEN Diagonale")
+            isOver = 1
+            finscore = diagonalR(k)
+            break
+        end
+    end
 end
 
 

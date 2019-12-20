@@ -33,8 +33,7 @@ end
 %TODO Diagonalen ueberpruefen; mit diag arbeiten
 
 for i = -2:2
-    diagonal = diag(board,i);
-    abs(sum(diagonal(i+2:i+5))) == 4;
+    abs(diag(board,i) == 4
 end
 
 

@@ -32,7 +32,7 @@ end
 
 %TODO Diagonalen ueberpruefen; mit diag arbeiten
 
-for i = -2:2
+for i = -2:2 %diagonale geraden
     diagonal = diag(board,i);
     abs(sum(diagonal(i+2:i+5))) == 4;
 end

@@ -1,14 +1,14 @@
-%function [isOver, finscore] = evaluateBoard(board)
+function [isOver, finscore] = evaluateBoard(board)
 %Hat jemand gewonnen? Geraden und Diagonalen ueberpruefen und ob Spielfeld
 %voll
 %board: Spielfeld-Matrize als Uebergabewert, isOver: Spielstand, finscore: minimax-auszahlung/ wer gewonnen hat 
 
-isOver = NaN;
-finscore = NaN;
+isOver = 0; %falls zu NaN, dann auch bei testEvaluating->expR aendern
+finscore = 0;
 
 %board = zeros(6,7);
 %board(1:4, 2) = -1
-board = fliplr(diag([0 0 -1 -1 -1 -1 0]));
+%board = fliplr(diag([0 0 -1 -1 -1 -1 0]));
 
 
 %Reihen ueberpruefen
@@ -41,13 +41,13 @@ for i = -3:3 %diagonale geraden
     for k = 1:(length(diagonalL)-3)
         if abs(sum(diagonalL(k:k+3))) == 4
             disp("Die 4er-Reihe liegt in der LINKEN Diagonale")
-            isOver = 1
-            finscore = diagonalL(k)
+            isOver = 1;
+            finscore = diagonalL(k);
             break
         elseif abs(sum(diagonalR(k:k+3))) == 4
             disp("Die 4er-Reihe liegt in der RECHTEN Diagonale")
-            isOver = 1
-            finscore = diagonalR(k)
+            isOver = 1;
+            finscore = diagonalR(k);
             break
         end
     end

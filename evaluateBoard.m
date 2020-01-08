@@ -1,14 +1,10 @@
 function [isOver, finscore] = evaluateBoard(board)
 %Hat jemand gewonnen? Geraden und Diagonalen ueberpruefen und ob Spielfeld
 %voll
-%board: Spielfeld-Matrize als Uebergabewert, isOver: Spielstand, finscore: minimax-auszahlung/ wer gewonnen hat 
+%board: Spielfeld-Matrize als Uebergabewert, isOver: Spielstand, finscore: minimax-auszahlung/ wer gewonnen hat; momentan 1/-1 statt 10/-10 
 
 isOver = 0; %falls zu NaN, dann auch bei testEvaluating->expR aendern
 finscore = 0;
-
-%board = zeros(6,7);
-%board(1:4, 2) = -1
-%board = fliplr(diag([0 0 -1 -1 -1 -1 0]));
 
 
 %Reihen ueberpruefen

@@ -36,12 +36,12 @@ for i = -3:3 %diagonale geraden
     diagonalR = diag(fliplr(board),i);
     for k = 1:(length(diagonalL)-3)
         if abs(sum(diagonalL(k:k+3))) == 4
-            disp("Die 4er-Reihe liegt in der LINKEN Diagonale")
+            %disp("Die 4er-Reihe liegt in der LINKEN Diagonale")
             isOver = 1;
             finscore = diagonalL(k);
             break
         elseif abs(sum(diagonalR(k:k+3))) == 4
-            disp("Die 4er-Reihe liegt in der RECHTEN Diagonale")
+            %disp("Die 4er-Reihe liegt in der RECHTEN Diagonale")
             isOver = 1;
             finscore = diagonalR(k);
             break

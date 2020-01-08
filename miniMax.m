@@ -1,23 +1,24 @@
-function [bestScore, bestMove] = miniMax(board, playerToken) %falls mit depth -> minimaxNR
+function [bestScore, bestMove] = miniMax(board, playerToken, depth) %falls mit depth -> minimaxNR
     
     bestMove = 0;
     [isOver, finscore] = evaluateBoard(board);
-	if ( isOver ) 
+	if ( isOver || depth == 0 ) 
 		bestScore = finscore;
     else				
         bestScore =  -Inf * playerToken; %also +/- Inf (=schlechtmoeglichster Wert fuer playerToken)       
         
         for i = 1:length(board(:))
+            %Abbruchbedingung anpassen
             if board(i) == 0 %also Feld noch nicht belegt
                 childboard = board;
                 childboard(i) = playerToken; %move eintragen
-                score = miniMax(childboard, -playerToken); %rekursiver Aufruf
+                score = miniMax(childboard, -playerToken, depth-1); %rekursiver Aufruf
                 
                 %if current move is better than previous candidates -> update
                 if (playerToken == 1 && score > bestScore) || ...    %maximizing player --> wants positive scores
                     (playerToken == - 1 && score < bestScore)    %minimizing player --> wants negative scores
                     bestScore = score;
-                    bestMove = i ;
+                    bestMove = i;
                 end               
             end
         end

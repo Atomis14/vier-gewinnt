@@ -3,13 +3,13 @@ playerToken = -1;
 
 for i = 1:42
     playerToken = playerToken*-1;  
-    while true   %Solange Benutzereingabe ungültig
-        column = input("[Spieler " + num2str(playerToken) + "] Wähle Spalte (1-7) aus: ");
+    while true   %Solange Benutzereingabe ungueltig
+        column = input("[Spieler " + num2str(playerToken) + "] Waehle Spalte (1-7) aus: ");
         if ~isnumeric(column) || isempty(column)
-            disp("Eingabe ungültig!");
+            disp("Eingabe ungueltig!");
             continue;
         elseif column < 1 || column > 7
-            disp("Bitte gültige Spalte (1-7) angeben!");
+            disp("Bitte gluetige Spalte (1-7) angeben!");
             continue;
         else
             row = 6 - sum(abs(board(:,column)));

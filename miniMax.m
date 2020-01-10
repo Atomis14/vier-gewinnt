@@ -7,11 +7,12 @@ function [bestScore, bestMove] = miniMax(board, playerToken, depth) %falls mit d
     else				
         bestScore =  -Inf * playerToken; %also +/- Inf (=schlechtmoeglichster Wert fuer playerToken)       
         
-        for i = 1:length(board(:))
+        for i = 1:7
             %Abbruchbedingung anpassen
-            if board(i) == 0 %also Feld noch nicht belegt
+            if sum(abs(board(:,i))) ~= 6 %also Feld noch nicht belegt
                 childboard = board;
-                childboard(i) = playerToken; %move eintragen
+                row = 6 - sum(abs(board(:,i)));
+                childboard(row, i) = playerToken; %move eintragen
                 score = miniMax(childboard, -playerToken, depth-1); %rekursiver Aufruf
                 
                 %if current move is better than previous candidates -> update

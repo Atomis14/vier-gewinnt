@@ -9,7 +9,7 @@ function [bestScore, bestMove] = miniMax(board, playerToken, depth) %falls mit d
         
         for i = 1:7
             %Abbruchbedingung anpassen
-            if sum(abs(board(:,i))) ~= 6 %also Feld noch nicht belegt
+            if sum(abs(board(:,i))) ~= 6 %also Spalte noch nicht voll
                 childboard = board;
                 row = 6 - sum(abs(board(:,i)));
                 childboard(row, i) = playerToken; %move eintragen
@@ -20,6 +20,14 @@ function [bestScore, bestMove] = miniMax(board, playerToken, depth) %falls mit d
                     (playerToken == - 1 && score < bestScore)    %minimizing player --> wants negative scores
                     bestScore = score;
                     bestMove = i;
+                %FALLS MEHRERE GLEICHGUT ->
+                %zufall ob bestScore ersetzt wird oder nicht    
+                elseif (playerToken == 1 && score == bestScore) || ...    
+                    (playerToken == - 1 && score == bestScore)
+                    if rand(1)>0.5
+                       bestScore = score;
+                       bestMove = i; 
+                    end
                 end               
             end
         end

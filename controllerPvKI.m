@@ -7,7 +7,7 @@ for i = 1:42
     
     
     if playerToken == -1    %KI
-        [~, column] = miniMax(board, playerToken, 5);
+        [~, column] = miniMax(board, playerToken, 4);
         row = 6 - sum(abs(board(:,column)));
         board(row, column) = playerToken
     else                    %Spieler

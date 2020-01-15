@@ -1,9 +1,11 @@
 function [bestScore, bestMove] = miniMax(board, playerToken, depth) %falls mit depth -> minimaxNR
     
     bestMove = 0;
-    [isOver, finscore] = evaluateBoard(board);
-	if ( isOver || depth == 0 ) 
+    [isOver, finscore] = evaluateBoard(board,depth);
+	if ( isOver == 1 ) %sauber einbauen
 		bestScore = finscore;
+    elseif ( depth == 0)
+        bestScore = 0;
     else				
         bestScore =  -Inf * playerToken; %also +/- Inf (=schlechtmoeglichster Wert fuer playerToken)       
         
@@ -20,11 +22,10 @@ function [bestScore, bestMove] = miniMax(board, playerToken, depth) %falls mit d
                     (playerToken == - 1 && score < bestScore)    %minimizing player --> wants negative scores
                     bestScore = score;
                     bestMove = i;
-                %FALLS MEHRERE GLEICHGUT ->
-                %zufall ob bestScore ersetzt wird oder nicht    
+                %FALLS MEHRERE GLEICHGUT -> zufall ob bestScore ersetzt wird oder nicht    
                 elseif (playerToken == 1 && score == bestScore) || ...    
                     (playerToken == - 1 && score == bestScore)
-                    if rand(1)>0.5
+                    if rand(1)>0.5 %andere Variante: falls mit Vektor -> bester oder zufälliger aussuchen
                        bestScore = score;
                        bestMove = i; 
                     end

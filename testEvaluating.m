@@ -52,15 +52,15 @@ switch testCase %beliebig viele Tests schreiben, board und expR angeben! und cas
         expR = 0; %Spiel noch nicht vorbei
         
     case 4
-        board = diag([0 0 -1 -1 -1 -1 0]);
+        board = [0 0 0 0 0 0 0; 0 0 0 0 0 0 0; 0 0 0 -1 0 0 0; 0 0 -1  -1 0 0 0; 0 -1 -1 1 0 0 0; -1 1 1 1 0 0 0];
         expR = 1;
         
     case 5
-        board = fliplr(diag([0 0 -1 -1 -1 -1 0]));
+        board = [0 0 0 0 0 0 0; 0 0 0 0 0 0 0; 0 0 0 1 0 0 0; 0 0 0 0 1 0 0; 0 0 0 -1 -1 1 0; 0 0 0 -1 -1 1 1];
         expR = 1;
         
     case 6
-        board = diag([0 0 -1 1 -1 -1 0]);
+        board = [0 0 0 0 0 0 0; 0 0 0 0 0 0 0; 0 0 0 -1 0 0 0; 0 0 -1  -1 0 0 0; 0 1 -1 1 0 0 0; -1 1 1 1 0 0 0];
         expR = 0;
         
     case 7

@@ -66,7 +66,7 @@ function updateBoard(h)
         if(sum(abs(board(i,:))) < 6)
             col = sum(abs(board(i,:)))+1;
             linindex = sub2ind(size(board),i,col);
-            rectangle('Position',[i-0.45 7 0.9 0.5],'FaceColor',[1 0 0],...
+            rectangle('Position',[i-0.45 7 0.9 0.5],'FaceColor',[0.2 0.2 0.2],...
                    'UserData',linindex, 'Tag','clickable','ButtonDownFcn',@clickedCallback);
         else
             rectangle('Position',[i-0.45 7 0.9 0.5],'FaceColor',[0.9 0.9 0.9]);
@@ -122,7 +122,7 @@ end
 function finished(finscore)
     h = findobj('Name','viergewinnt');
 
-    if finscore == 1
+    if finscore > 0
         winner = "Rot";
         bgcolor = [1 0 0 0.7];
     else

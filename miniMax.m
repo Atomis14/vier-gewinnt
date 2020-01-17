@@ -4,7 +4,7 @@ function [bestScore, bestMove] = miniMax(board, playerToken, depth) %falls mit d
     [isOver, finscore] = evaluateBoard(board,depth);
 	if ( isOver == 1 ) %sauber einbauen
 		bestScore = finscore;
-    elseif ( depth == 0)
+    elseif (depth == 0) %abbruch minimax falls depth > verfügbare Züge?
         bestScore = 0;
     else				
         bestScore =  -Inf * playerToken; %also +/- Inf (=schlechtmoeglichster Wert fuer playerToken)       

@@ -11,10 +11,7 @@ finscore = NaN;
 
 if (sum(abs(board)) == 42)
     finscore = 0;
-    disp ('Brett voll: Unentschieden!');
-% elseif (depth == 0)
-%     finscore = 0;
-%     
+    disp ('Brett voll: Unentschieden!') %wird nicht ausgegeben (gar nicht mehr aufgerufen bei vollem Brett?)
 end
 
 %Reihen ueberpruefen
@@ -23,7 +20,7 @@ for row = 1:6
         if abs(sum(board(row, col:col+3))) == 4
             isOver = 1;
             finscore = board(row,col)*100;
-            %return
+            return
         end
     end
 end
@@ -34,7 +31,7 @@ for col = 1:7
         if abs(sum(board(row:row+3,col))) == 4
             isOver = 1;
             finscore = board(row,col)*100;
-            %return
+            return
         end
     end
 end

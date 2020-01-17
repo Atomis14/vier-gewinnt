@@ -1,4 +1,4 @@
-board = zeros(6,7);
+board = zeros(6,7); %hier evtl. noch Input aus GUI, der depth und somit Spielstärke KI definiert?
 startPlayer = [-1,1];
 playerToken = startPlayer(randi([1,2], 1));
 

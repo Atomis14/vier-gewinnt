@@ -9,9 +9,9 @@ function [isOver, finscore] = evaluateBoard(board,depth)
 isOver = 0; %falls zu NaN, dann auch bei testEvaluating->expR aendern
 finscore = NaN;
 
-if (sum(abs(board)) == 42)
+if (sum(sum(abs(board))) == 42)
     finscore = 0;
-    disp ('Brett voll: Unentschieden!') %wird nicht ausgegeben (gar nicht mehr aufgerufen bei vollem Brett?)
+    disp ('Brett voll: Unentschieden!') %wird nicht ausgegeben, nun sum(sum()) -> funktioniert?
 end
 
 %Reihen ueberpruefen

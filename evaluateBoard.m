@@ -9,7 +9,8 @@ function [isOver, finscore] = evaluateBoard(board,depth)
 isOver = 0; %falls zu NaN, dann auch bei testEvaluating->expR aendern
 finscore = NaN;
 
-if (sum(abs(board)) == 42)
+if (sum(abs(board(:))) == 42)
+    isOver = 1;
     finscore = 0;
     disp ('Brett voll: Unentschieden!');
 % elseif (depth == 0)

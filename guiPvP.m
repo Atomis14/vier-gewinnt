@@ -8,8 +8,9 @@ function newboard = guiPvP(board,playerType,isOver,finscore)
 
     h = findobj('Name','viergewinnt'); %existierende figure finden
     if isempty(h)
-        h = figure('Name','viergewinnt'); %oder neu erschaffen
+        h = figure('Name','viergewinnt','ToolBar','none','MenuBar','none'); %oder neu erschaffen
         axis off;  % prepare to draw 
+        axis square;
         xlim([0.5 7.5]); ylim([0.5 7.5]);    
     end
 
@@ -56,7 +57,17 @@ function updateBoard(h)
     rectangle('Position',[0.5 5.5 7 1],'LineWidth',1) % inside border
     
     board = h.UserData.b;
+    player = h.UserData.p;
     
+    if player == 1
+        name = "Rot";
+        color = [1 0 0];
+    else
+        name = "Grün";
+        color = [0 1 0];
+    end
+    
+    text(4,0, [name + ' ist dran'], 'FontSize', 20, 'HorizontalAlignment', 'center', 'Color', color);
     
     % Fill in the marks
     for i=1:7
@@ -105,13 +116,14 @@ function showGuiMove(h,linIndex,playerType)
         color = [0 1 0];
     end
     [i,j]=ind2sub(size(h.UserData.b),linIndex);
-    %schlussposition = [i-0.5 j-0.5 1 1];
+    %schlussposition = [i-0.5 j-0.5 1 1];x
     %startposition = [i-0.5 6 1 1];
     
+    token = rectangle('Position', [i-0.5 6 1 1], 'Curvature', [1 1], 'FaceColor', color);
     for k = 1:10*(6.5-j)
-        token = rectangle('Position', [i-0.5 6-(0.1*k) 1 1], 'Curvature', [1 1], 'FaceColor', color);
+        set(token, 'Position', [i-0.5 6-(0.1*k) 1 1]);
+        %token.position = [i-0.5 6-(0.1*k) 1 1];
         pause(0.01);
-        delete(token);
     end
     
     %rectangle('Position',startposition, 'Curvature', [1 1], 'FaceColor', color);
@@ -121,16 +133,19 @@ end
 
 function finished(finscore)
     h = findobj('Name','viergewinnt');
-
-    if finscore > 0
-        winner = "Rot";
-        bgcolor = [1 0 0 0.7];
-    else
-        winner = "Grün";
+    disp(["finscore: " + finscore]);
+    if finscore == 0
+        message = "Unentschieden"
+        bgcolor = [0.8 0.8 0.8 0.7];
+    elseif finscore < 0
+        message = "Der Gewinner ist: Grün"
         bgcolor = [0 1 0 0.7];
+    elseif finscore > 0
+        message = "Der Gewinner ist: Rot"
+        bgcolor = [1 0 0 0.7];
     end
     rectangle('Position', [0.5 0.5 7 6], 'FaceColor', bgcolor);
-    text(4,4.5, ['Der Gewinner ist: ' + winner], 'FontSize', 25, 'HorizontalAlignment', 'center');
+    text(4,4.5, message, 'FontSize', 25, 'HorizontalAlignment', 'center');
     
     %Restart-Button
     rectangle('Position', [3 2.8 2 0.8], 'FaceColor', [0.2 0.2 0.2], 'Tag','clickable','ButtonDownFcn',@restart);

@@ -1,4 +1,4 @@
-function controller(type, board, playerToken)
+function finscore = controller(type, board, playerToken)
     %type: verschiedene Arten des Controllers
     %board: spielbrett (falls board=0 -> leer)
     %playerToken: Spieler (falls playerToken=0: zufällig)
@@ -152,7 +152,7 @@ function PvKI_GUI(board, playerToken)
 end
 
 
-function KIvKI_noGUI(board, playerToken)
+function finscore = KIvKI_noGUI(board, playerToken)
     for k = 1:42
         playerToken = playerToken*-1; 
 

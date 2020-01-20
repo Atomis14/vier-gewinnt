@@ -12,7 +12,7 @@ finscore = NaN;
 if (sum(abs(board(:))) == 42)
     isOver = 1;
     finscore = 0;
-    disp ('Brett voll: Unentschieden!') %wird nicht ausgegeben, nun sum(sum()) -> funktioniert?
+    %disp ('Brett voll: Unentschieden!') %wird nicht ausgegeben, nun sum(sum()) -> funktioniert?
 end
 
 %Reihen ueberpruefen

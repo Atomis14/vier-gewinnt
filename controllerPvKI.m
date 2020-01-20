@@ -1,4 +1,4 @@
-board = zeros(6,7);
+board = zeros(6,7); %hier evtl. noch Input aus GUI, der depth und somit Spielstärke KI definiert?
 startPlayer = [-1,1];
 playerToken = startPlayer(randi([1,2], 1));
 
@@ -12,25 +12,25 @@ for i = 1:42
         board(row, column) = playerToken
     else                    %Spieler
         while true   %Solange Benutzereingabe ungueltig
-        column = input("[Spieler " + num2str(playerToken) + "] Waehle Spalte (1-7) aus: ");
-        try int8(column);
-            if column < 1 || column > 7
-                disp("Bitte gueltige Spalte (1-7) angeben!");
-                continue;
-            else
-                row = 6 - sum(abs(board(:,column)));
-                if row < 1
-                    disp("Die Spalte ist schon voll!");
+            column = input("[Spieler " + num2str(playerToken) + "] Waehle Spalte (1-7) aus: ");
+            try int8(column);
+                if column < 1 || column > 7
+                    disp("Bitte gueltige Spalte (1-7) angeben!");
                     continue;
                 else
-                    board(row, column) = playerToken
-                    break;
+                    row = 6 - sum(abs(board(:,column)));
+                    if row < 1
+                        disp("Die Spalte ist schon voll!");
+                        continue;
+                    else
+                        board(row, column) = playerToken
+                        break;
+                    end
                 end
+            catch
+                disp("Eingabe ungueltig!");
             end
-        catch
-            disp("Eingabe ungueltig!");
         end
-    end
     
     
     

@@ -19,6 +19,8 @@ function controller(type, board, playerToken)
         PvKI_noGUI(board, playerToken)
     elseif type == "pvki-gui"
         PvKI_GUI(board, playerToken)
+    elseif type == "kivki-nogui"
+        KIvKI_noGUI(board, playerToken)
     end
 end
 
@@ -146,5 +148,29 @@ function PvKI_GUI(board, playerToken)
             end
         end
 
+    end
+end
+
+
+function KIvKI_noGUI(board, playerToken)
+    for k = 1:42
+        playerToken = playerToken*-1; 
+
+
+        if playerToken == -1    %KI
+            [~, column] = miniMax(board, playerToken, 2); %depth = Spielstärke
+            row = 6 - sum(abs(board(:,column)));
+            board(row, column) = playerToken
+        else                    %KIschwaecher
+            [~, column] = miniMax(board, playerToken, 2); %depth = Spielstärke
+            row = 6 - sum(abs(board(:,column)));
+            board(row, column) = playerToken
+        end
+
+        [isOver, finscore] = evaluateBoard(board); %Unentschieden wird nicht ausgegeben (falls voll)
+        if isOver == 1
+            disp("Spieler " + num2str(playerToken) + " hat gewonnen!"); 
+            break;
+        end
     end
 end

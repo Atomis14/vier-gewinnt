@@ -7,7 +7,7 @@ for k = 1:42
     
     
     if playerToken == -1    %KI
-        [~, column] = miniMax(board, playerToken, 2); %depth = Spielstärke
+        [~, column] = miniMax(board, playerToken, 5); %depth = Spielstärke
         row = 6 - sum(abs(board(:,column)));
         board(row, column) = playerToken
     else                    %KIschwaecher

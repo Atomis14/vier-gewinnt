@@ -140,7 +140,9 @@ function PvKI_GUI(board, playerToken)
                 [~, column] = miniMax(board, playerToken, 4);
                 row = 6 - sum(abs(board(:,column)));
                 board(row, column) = playerToken;
-                %Animation
+                %Animation:
+                h = findobj('Name','viergewinnt');
+                animation(h, [7-row, column], playerToken)
             end
         end
 

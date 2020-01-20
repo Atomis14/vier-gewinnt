@@ -104,31 +104,8 @@ function clickedCallback(obj,evt,h) %vor dem Zeichnen muss schon der move überpr
     h.UserData.m = obj.UserData; %geklickte Spalte %das ist der lineare Index des geklickten Rechtecks
     h.UserData.b(h.UserData.m)=h.UserData.p; %entsprechenden Wert (1/-1) dort ins board schreiben
     %updateBoard(h); %geht, aber dann wird alles neu gezeichnet -> langsam
-    showGuiMove(h,h.UserData.m,h.UserData.p); %den neuen Mark anzeigen
+    animation(h,h.UserData.m,h.UserData.p); %den neuen Mark anzeigen
     uiresume(h);
-end
-
-
-function showGuiMove(h,linIndex,playerType)
-    if playerType == 1
-        color = [1 0 0];
-    else
-        color = [0 1 0];
-    end
-    [i,j]=ind2sub(size(h.UserData.b),linIndex);
-    %schlussposition = [i-0.5 j-0.5 1 1];x
-    %startposition = [i-0.5 6 1 1];
-    
-    token = rectangle('Position', [i-0.5 6 1 1], 'Curvature', [1 1], 'FaceColor', color);
-    for k = 1:10*(6.5-j)
-        set(token, 'Position', [i-0.5 6-(0.1*k) 1 1]);
-        %token.position = [i-0.5 6-(0.1*k) 1 1];
-        pause(0.01);
-    end
-    
-    %rectangle('Position',startposition, 'Curvature', [1 1], 'FaceColor', color);
-    %text(i,j,marker,'FontUnits','normalized','FontSize',0.2,'HorizontalAlignment','center');
-    %delete(findobj(gca,'Tag','clickable'));
 end
 
 function finished(finscore)

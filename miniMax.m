@@ -32,5 +32,6 @@ function [bestScore, bestMove] = miniMax(board, playerToken, depth) %falls mit d
                 end               
             end
         end
+        
     end
 end

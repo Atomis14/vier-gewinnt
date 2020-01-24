@@ -3,11 +3,11 @@ function finscore = controllerKIvKI(board, playerToken)
         playerToken = playerToken*-1; 
 
         if playerToken == -1    %KI
-            [~, column] = miniMax(board, playerToken, 2); %depth = Spielstärke
+            [~, column] = miniMaxHeuristic(board, playerToken, 5); %depth = Spielstärke
             row = 6 - sum(abs(board(:,column)));
             board(row, column) = playerToken;
         else                    %KIschwaecher
-            [~, column] = miniMax(board, playerToken, 2); %depth = Spielstärke
+            [~, column] = miniMax(board, playerToken, 5); %depth = Spielstärke
             row = 6 - sum(abs(board(:,column)));
             board(row, column) = playerToken;
         end

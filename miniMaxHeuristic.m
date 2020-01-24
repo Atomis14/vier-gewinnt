@@ -1,11 +1,11 @@
-function [bestScore, bestMove] = miniMax(board, playerToken, depth) %falls mit depth -> minimaxNR
+function [bestScore, bestMove] = miniMaxHeuristic(board, playerToken, depth) %falls mit depth -> minimaxNR
     
     bestMove = 0;
     [isOver, finscore] = evaluateBoard(board,depth);
-	if ( isOver == 1 ) %sauber einbauen
+	if(isOver == 1) %sauber einbauen
 		bestScore = finscore;
     elseif (depth == 0) %abbruch minimax falls depth > verfügbare Züge?
-        bestScore = 0;
+        bestScore = evaluateBoard2(board);
     else				
         bestScore =  -Inf * playerToken; %also +/- Inf (=schlechtmoeglichster Wert fuer playerToken)       
         
@@ -15,11 +15,11 @@ function [bestScore, bestMove] = miniMax(board, playerToken, depth) %falls mit d
                 childboard = board;
                 row = 6 - sum(abs(board(:,i)));
                 childboard(row, i) = playerToken; %move eintragen
-                score = miniMax(childboard, -playerToken, depth-1); %rekursiver Aufruf
+                score = miniMaxHeuristic(childboard, -playerToken, depth-1); %rekursiver Aufruf
                 
                 %if current move is better than previous candidates -> update
                 if (playerToken == 1 && score > bestScore) || ...    %maximizing player --> wants positive scores
-                    (playerToken == - 1 && score < bestScore)    %minimizing player --> wants negative scores
+                    (playerToken == -1 && score < bestScore)    %minimizing player --> wants negative scores
                     bestScore = score;
                     bestMove = i;
                 %FALLS MEHRERE GLEICHGUT -> zufall ob bestScore ersetzt wird oder nicht    
@@ -31,7 +31,7 @@ function [bestScore, bestMove] = miniMax(board, playerToken, depth) %falls mit d
 %                     end
 %                 end               
             end
-        end
-        
+        end    
     end
+
 end

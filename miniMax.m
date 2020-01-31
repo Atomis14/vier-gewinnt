@@ -29,7 +29,7 @@ function [bestScore, bestMove] = miniMax(board, playerToken, depth) %falls mit d
 %                        bestScore = score;
 %                        bestMove = i; 
 %                     end
-%                 end               
+                 end               
             end
         end
         

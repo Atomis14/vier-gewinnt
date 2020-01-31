@@ -29,7 +29,7 @@ function [bestScore, bestMove] = miniMaxHeuristic(board, playerToken, depth) %fa
 %                        bestScore = score;
 %                        bestMove = i; 
 %                     end
-%                 end               
+                 end               
             end
         end    
     end

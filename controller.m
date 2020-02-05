@@ -128,18 +128,18 @@ function PvKI_GUI(board, playerToken)
             break;
         end
         playerToken = playerToken*-1;
-        i = i+1
+        i = i+1;
         [isOver, finscore] = evaluateBoard(board);
         if isOver == 1
             disp("Spieler " + num2str(playerToken) + " hat gewonnen!");
-            i = 1
+            i = 1;
             board = guiPvP(board, playerToken, isOver, finscore); %damit letztes Token angezeigt wird
             continue;
         else
             if playerToken == 1     %Spieler am Zug
                 board = guiPvP(board, playerToken, isOver);
             else                    %Ki am Zug
-                [~, column] = miniMax(board, playerToken, 4);
+                [~, column] = miniMax(board, playerToken, 3);
                 row = 6 - sum(abs(board(:,column)));
                 board(row, column) = playerToken;
                 %Animation:

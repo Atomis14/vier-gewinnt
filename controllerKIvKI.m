@@ -1,13 +1,15 @@
+%[bestScore, bestMove] = miniMaxPruning(board, 1, -Inf, Inf, 4)
+
 function finscore = controllerKIvKI(board, playerToken)
     for k = 1:42
         playerToken = playerToken*-1; 
 
-        if playerToken == -1    %KI
-            [~, column] = miniMaxHeuristic(board, playerToken, 5); %depth = Spielstärke
+        if playerToken == -1
+            [~, column] = miniMaxHeuristic(board, playerToken, -Inf, Inf, 2);
             row = 6 - sum(abs(board(:,column)));
             board(row, column) = playerToken;
-        else                    %KIschwaecher
-            [~, column] = miniMax(board, playerToken, 5); %depth = Spielstärke
+        else                    
+            [~, column] = miniMaxPruning(board, 1, -Inf, Inf, 2);
             row = 6 - sum(abs(board(:,column)));
             board(row, column) = playerToken;
         end

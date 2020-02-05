@@ -2,9 +2,9 @@ function [bestScore, bestMove] = miniMax(board, playerToken, depth) %falls mit d
     
     bestMove = 0;
     [isOver, finscore] = evaluateBoard(board,depth);
-	if ( isOver == 1 ) %sauber einbauen
-		bestScore = finscore;
-    elseif (depth == 0) %abbruch minimax falls depth > verfügbare Züge?
+	if isOver == 1 %sauber einbauen
+		bestScore = finscore*depth;
+    elseif depth == 0 %abbruch minimax falls depth > verfügbare Züge?
         bestScore = 0;
     else				
         bestScore =  -Inf * playerToken; %also +/- Inf (=schlechtmoeglichster Wert fuer playerToken)       
@@ -15,7 +15,7 @@ function [bestScore, bestMove] = miniMax(board, playerToken, depth) %falls mit d
                 childboard = board;
                 row = 6 - sum(abs(board(:,i)));
                 childboard(row, i) = playerToken; %move eintragen
-                score = miniMax(childboard, -playerToken, depth-1); %rekursiver Aufruf
+                [score, ~] = miniMax(childboard, -playerToken, depth-1); %rekursiver Aufruf
                 
                 %if current move is better than previous candidates -> update
                 if (playerToken == 1 && score > bestScore) || ...    %maximizing player --> wants positive scores
@@ -23,12 +23,12 @@ function [bestScore, bestMove] = miniMax(board, playerToken, depth) %falls mit d
                     bestScore = score;
                     bestMove = i;
                 %FALLS MEHRERE GLEICHGUT -> zufall ob bestScore ersetzt wird oder nicht    
-%                 elseif (playerToken == 1 && score == bestScore) || ...    
-%                     (playerToken == - 1 && score == bestScore)
-%                     if rand(1)>0.5 %andere Variante: falls mit Vektor -> bester oder zufälliger aussuchen
-%                        bestScore = score;
-%                        bestMove = i; 
-%                     end
+                elseif (playerToken == 1 && score == bestScore) || ...    
+                    (playerToken == - 1 && score == bestScore)
+                    if rand(1)>0.5 %andere Variante: falls mit Vektor -> bester oder zufälliger aussuchen
+                       bestScore = score;
+                       bestMove = i; 
+                    end
                  end               
             end
         end

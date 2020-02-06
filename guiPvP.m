@@ -1,4 +1,4 @@
-function newboard = guiPvP(board,playerType,isOver,finscore)
+function newboard = guiPvP(board,playerType,isOver,finscore, row)
 % draws the current state on a figure, optionally waits for a user to put
 % his mark (click on the board)
 % input:
@@ -22,8 +22,10 @@ function newboard = guiPvP(board,playerType,isOver,finscore)
     if isOver == 1
         finished(finscore);
     else
-        if abs(playerType)==1
+        if playerType==1
             uiwait(h); %auf click warten
+        else
+            animation(h,row,-1);
         end
     end
 
@@ -59,6 +61,7 @@ function updateBoard(h)
     board = h.UserData.b;
     player = h.UserData.p;
     
+    %Spieler-Anzeige
     if player == 1
         name = "Rot";
         color = [1 0 0];
@@ -66,25 +69,23 @@ function updateBoard(h)
         name = "Grün";
         color = [0 1 0];
     end
-    
     text(4,0, [name + ' ist dran'], 'FontSize', 20, 'HorizontalAlignment', 'center', 'Color', color);
     
     % Fill in the marks
     for i=1:7
         %Buttons platzieren
         
-        %lineare Indizes für jede Spalte berechnen
-        if(sum(abs(board(i,:))) < 6)
+        if(sum(abs(board(i,:))) < 6)    %Falls Zeile noch frei
             col = sum(abs(board(i,:)))+1;
             linindex = sub2ind(size(board),i,col);
             rectangle('Position',[i-0.45 7 0.9 0.5],'FaceColor',[0.2 0.2 0.2],...
                    'UserData',linindex, 'Tag','clickable','ButtonDownFcn',@clickedCallback);
-        else
+        else %Falls Zeile voll
             rectangle('Position',[i-0.45 7 0.9 0.5],'FaceColor',[0.9 0.9 0.9]);
         end
        
 
-
+        %Spielsteine einfüllen
         for j=1:6           
             if board(i,j)==1           
                 rectangle('Position',[i-0.5 j-0.5 1 1], 'Curvature', [1 1], 'FaceColor', [1 0 0]);
@@ -140,6 +141,7 @@ function restart(obj,evt,h)
     h = findobj('Name','viergewinnt');
     h.UserData.b = zeros(7,6);
     updateBoard(h)
+    uiresume
 end
 
 function quit(obj,evt,h)

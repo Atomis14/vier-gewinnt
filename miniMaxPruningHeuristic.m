@@ -29,6 +29,7 @@ function [bestScore, bestMove] = miniMaxPruningHeuristic(board, playerToken, alp
                        bestMove = i; 
                     end
                 end
+                
                 if playerToken == 1
                     alpha = max([alpha, score]);
                 elseif playerToken == -1

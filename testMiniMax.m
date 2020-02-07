@@ -10,8 +10,8 @@ problems = 0;
 if testCase == 0 % 0 = um alle Cases zu testen
     for testCase = 1:6 % <- manuel an Case-Anzahl(unten) anpassen nicht vergessen !!!
         [board, expR] = testBoardMiniMax(testCase); %Board und erwartetes Resultat werden geholt
-        [~, column] = miniMax(board, -1, 2)
-        if column == expR %ueberprueft ob das berechnete resultat dem erwarteten entspricht
+        [~, column] = miniMax(board, -1, 2);
+        if column == expR 
             correct = correct + 1;
             %disp('correct')    
         else
@@ -49,8 +49,8 @@ switch testCase %beliebig viele Tests schreiben, board und expR angeben! und cas
         board(6, 5:7) = 1;
         expR = 4;
         
-    case 3 %senkrecht PROBLEM-> Zug wird als gleichwertig empfunden und zufällig gewählt
-        board(4:6, 5) = -1
+    case 3 %senkrecht PROBLEM-> Zug wird als gleichwertig empfunden und zufällig gewählt -> was war die Lösung...?
+        board(4:6, 5) = -1;
         expR = 5; 
         
     case 4

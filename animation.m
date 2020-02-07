@@ -1,4 +1,5 @@
 function animation(h,linIndex,playerType)
+
     if playerType == 1
         color = [1 0 0];
     else
@@ -7,11 +8,11 @@ function animation(h,linIndex,playerType)
     
     if size(linIndex) == 1  %falls User Stein gesetzt hat
         [i,j]=ind2sub(size(h.UserData.b),linIndex);
-        disp("USER: j: " + j + " | i: " + i)
+        %disp("USER: j: " + j + " | i: " + i)
     else                    %falls KI den Stein gesetzt hat
         i = linIndex(2);            %Spalte
         j = linIndex(1); %Zeile
-        disp("AI: j: " + j + " | i: " + i)
+        %disp("AI: j: " + j + " | i: " + i)
     end
   
     %schlussposition = [i-0.5 j-0.5 1 1];x

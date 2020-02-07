@@ -1,4 +1,5 @@
-function [bestScore, bestMove] = miniMaxHeuristic(board, playerToken, depth) %falls mit depth -> minimaxNR
+function [bestScore, bestMove] = miniMaxPruningHeuristic(board, playerToken, alpha, beta, depth) %falls mit depth -> minimaxNR
+    
     bestMove = 0;
     [isOver, finscore] = evaluateBoard(board,depth);
 	if isOver == 1 %sauber einbauen
@@ -14,8 +15,7 @@ function [bestScore, bestMove] = miniMaxHeuristic(board, playerToken, depth) %fa
                 childboard = board;
                 row = 6 - sum(abs(board(:,i)));
                 childboard(row, i) = playerToken; %move eintragen
-                [score, ~] = miniMaxHeuristic(childboard, -playerToken, depth-1); %rekursiver Aufruf
-                
+                score = miniMaxPruningHeuristic(childboard, -playerToken, alpha, beta, depth-1); %rekursiver Aufruf
                 %if current move is better than previous candidates -> update
                 if (playerToken == 1 && score > bestScore) || ...    %maximizing player --> wants positive scores
                     (playerToken == - 1 && score < bestScore)    %minimizing player --> wants negative scores
@@ -28,7 +28,17 @@ function [bestScore, bestMove] = miniMaxHeuristic(board, playerToken, depth) %fa
                        bestScore = score;
                        bestMove = i; 
                     end
-                 end               
+                end
+                
+                if playerToken == 1
+                    alpha = max([alpha, score]);
+                elseif playerToken == -1
+                    beta = min([beta, score]);
+                end
+                
+                if beta <= alpha
+                    return
+                end
             end
         end
         

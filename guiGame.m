@@ -1,45 +1,36 @@
-function newboard = guiPvP(board,playerType,isOver,finscore, row)
-% draws the current state on a figure, optionally waits for a user to put
-% his mark (click on the board)
-% input:
-%   board specifies the current state of the game (3x3, 0=empty; 1=mark pl1(X); -1=mark pl2(O))
-%   playerType (1/-1) specifies whose turn it is - for other values the GUI
-%   does not accept any user-inputs (clicks)
+function [newboard, mode] = guiGame(board,playerType,isOver,finscore, row)
 
-    h = findobj('Name','viergewinnt'); %existierende figure finden
-    if isempty(h)
-        h = figure('Name','viergewinnt','ToolBar','none','MenuBar','none'); %oder neu erschaffen
-        axis off;  % prepare to draw 
-        axis square;
-        xlim([0.5 7.5]); ylim([0.5 7.5]);    
-    end
+    h = findobj('Name','4 Gewinnt');
 
     board = rot90(board,3); %Display-Koordinaten wie Lesefluss (nicht wie Matrix)
     h.UserData.b = board;   %Wichtige Werte in UserData speichern, damit sie in den Callback-Funktionen zugänglich sind
     h.UserData.p = playerType;
     updateBoard(h); %aktuelles board auf die figure zeichnen, leere Felder clickable machen
-
+    mode = h.UserData.mode;
+    
+    if h.UserData.mode == "menu"
+        delete(gca)
+        newboard = zeros(6,7);
+        mode = "menu";
+        return
+    end
+    
     if isOver == 1
         finished(finscore);
     else
-        if playerType==1
-            uiwait(h); %auf click warten
+        if (playerType==1 && h.UserData.mode == "1 Spieler") || h.UserData.mode == "2 Spieler"
+            uiwait(h);
         else
             animation(h,row,-1);
         end
     end
 
-    h = findobj('Name','viergewinnt');
-    if ~isempty(h)
-        newboard = rot90(h.UserData.b); %board mit neuem Eintrag zurückgeben 
-    else
-        newboard = NaN; %Um Fehlermeldung beim Schliessen zu vermeiden
-    end
+    newboard = rot90(h.UserData.b); %board mit neuem Eintrag zurückgeben 
 
 end
 
 
-%% Hilfsfunktionen und Callbacks%%%%%%%%%%%%%%%%
+% Hilfsfunktionen und Callbacks%%%%%%%%%%%%%%%%
 
 function updateBoard(h)
 %Zeichnet das aktuelle Board (gespeichert in UserData) auf die figure
@@ -61,15 +52,21 @@ function updateBoard(h)
     board = h.UserData.b;
     player = h.UserData.p;
     
+    %Modus-Anzeige
+    text(0.5,0, h.UserData.mode, 'FontSize', 14);
+    
+    %Menü-Knopf
+    text(7.5,0, 'Menü', 'FontSize', 14, 'HorizontalAlignment', 'right', 'Color', [1 1 1], 'BackgroundColor', [0 0 0], 'Tag','clickable','ButtonDownFcn',@menu);
+    
     %Spieler-Anzeige
     if player == 1
         name = "Rot";
         color = [1 0 0];
     else
         name = "Grün";
-        color = [0 1 0];
+        color = [0 0.8 0];
     end
-    text(4,0, [name + ' ist dran'], 'FontSize', 20, 'HorizontalAlignment', 'center', 'Color', color);
+    text(4,0, [name + ' ist dran'], 'FontSize', 20, 'HorizontalAlignment', 'center', 'Color', color)
     
     % Fill in the marks
     for i=1:7
@@ -89,10 +86,8 @@ function updateBoard(h)
         for j=1:6           
             if board(i,j)==1           
                 rectangle('Position',[i-0.5 j-0.5 1 1], 'Curvature', [1 1], 'FaceColor', [1 0 0]);
-                %text(i,j,'X','FontUnits','normalized','FontSize',0.2,'HorizontalAlignment','center');
             elseif board(i,j)==-1
-                rectangle('Position',[i-0.5 j-0.5 1 1], 'Curvature', [1 1], 'FaceColor', [0 1 0]);
-                %text(i,j,'O','FontUnits','normalized','FontSize',0.2,'HorizontalAlignment','center');
+                rectangle('Position',[i-0.5 j-0.5 1 1], 'Curvature', [1 1], 'FaceColor', [0 0.8 0]);
             end
         end
     end
@@ -101,7 +96,7 @@ end
 
 function clickedCallback(obj,evt,h) %vor dem Zeichnen muss schon der move überprüft werden
 %Verarbeitet Klicks auf die Rechtecke im TicTacToe-Board
-    h = findobj('Name','viergewinnt');
+    h = findobj('Name','4 Gewinnt');
     h.UserData.m = obj.UserData; %geklickte Spalte %das ist der lineare Index des geklickten Rechtecks
     h.UserData.b(h.UserData.m)=h.UserData.p; %entsprechenden Wert (1/-1) dort ins board schreiben
     %updateBoard(h); %geht, aber dann wird alles neu gezeichnet -> langsam
@@ -110,14 +105,14 @@ function clickedCallback(obj,evt,h) %vor dem Zeichnen muss schon der move überpr
 end
 
 function finished(finscore)
-    h = findobj('Name','viergewinnt');
+    h = findobj('Name','4 Gewinnt');
     disp(["finscore: " + finscore]);
     if finscore == 0
         message = "Unentschieden"
         bgcolor = [0.8 0.8 0.8 0.7];
     elseif finscore < 0
         message = "Der Gewinner ist: Grün"
-        bgcolor = [0 1 0 0.7];
+        bgcolor = [0 0.8 0 0.7];
     elseif finscore > 0
         message = "Der Gewinner ist: Rot"
         bgcolor = [1 0 0 0.7];
@@ -125,12 +120,9 @@ function finished(finscore)
     rectangle('Position', [0.5 0.5 7 6], 'FaceColor', bgcolor);
     text(4,4.5, message, 'FontSize', 25, 'HorizontalAlignment', 'center');
     
-    %Restart-Button
-    rectangle('Position', [3 2.8 2 0.8], 'FaceColor', [0.2 0.2 0.2], 'Tag','clickable','ButtonDownFcn',@restart);
-    text(4,3.2, ['neu starten'], 'FontSize', 18, 'HorizontalAlignment', 'center', 'Color', [1 1 1], 'Tag','clickable','ButtonDownFcn',@restart);
-    
-    rectangle('Position', [3 1.6 2 0.8], 'FaceColor', [0.2 0.2 0.2], 'Tag','clickable','ButtonDownFcn',@quit);
-    text(4,2, ['beenden'], 'FontSize', 18, 'HorizontalAlignment', 'center', 'Color', [1 1 1], 'Tag','clickable','ButtonDownFcn',@quit);
+    %Buttons bei Spielende
+    text(4,3.2, 'Neu starten', 'FontSize', 18, 'HorizontalAlignment', 'center', 'Color', [1 1 1], 'BackgroundColor', [0.1 0.1 0.1], 'Margin', 8, 'Tag','clickable','ButtonDownFcn',@restart);
+    text(4,2, 'Beenden', 'FontSize', 15, 'HorizontalAlignment', 'center', 'Color', [1 1 1], 'BackgroundColor', [0.1 0.1 0.1], 'Margin', 6, 'Tag','clickable','ButtonDownFcn',@quit);
     
     uiwait(h);
     
@@ -138,13 +130,19 @@ function finished(finscore)
 end
 
 function restart(obj,evt,h)
-    h = findobj('Name','viergewinnt');
+    h = findobj('Name','4 Gewinnt');
     h.UserData.b = zeros(7,6);
     updateBoard(h)
     uiresume
 end
 
 function quit(obj,evt,h)
-    h = findobj('Name','viergewinnt');
+    h = findobj('Name','4 Gewinnt');
     close(h)
+end
+
+function menu(obj, evt, h)
+    h = findobj('Name','4 Gewinnt');
+    h.UserData.mode = 'menu';
+    uiresume
 end

@@ -56,31 +56,6 @@ function PvP_noGUI(board, playerToken)
         end
     end
 end
-
-
-function PvP_GUI(board, playerToken)
-
-    i = 0;
-    while i <= 42
-        if isnan(board) %falls Spiel beendet wurde
-            break;
-        end
-        playerToken = playerToken*-1;
-        i = i+1
-        [isOver, finscore] = evaluateBoard(board);
-        if isOver == 1
-            disp("Spieler " + num2str(playerToken) + " hat gewonnen!");
-            i = 1
-            board = guiPvP(board, playerToken, isOver, finscore); %damit letztes Token angezeigt wird
-            continue;
-        end
-        board = guiPvP(board, playerToken, isOver);
-
-    end
-    
-end
-
-
 function PvKI_noGUI(board, playerToken)
     for i = 1:42
         playerToken = playerToken*-1; 
@@ -119,41 +94,6 @@ function PvKI_noGUI(board, playerToken)
         end
     end
 end
-
-
-function PvKI_GUI(board, playerToken)
-    i = 0;
-    while i <= 42
-        if isnan(board) %falls Spiel beendet wurde
-            break;
-        end
-        playerToken = playerToken*-1;
-        i = i+1;
-        [isOver, finscore] = evaluateBoard(board);
-        if isOver == 1
-            disp("Spieler " + num2str(playerToken) + " hat gewonnen!");
-            i = 1;
-            board = guiPvP(board, playerToken, isOver, finscore); %damit letztes Token angezeigt wird
-            playerToken = playerToken*-1;
-            continue;
-        else
-            if playerToken == 1     %Spieler am Zug
-                board = guiPvP(board, playerToken, isOver);
-            else                    %Ki am Zug
-                [~, column] = miniMaxHeuristic(board, playerToken, 4);
-                row = 6 - sum(abs(board(:,column)));
-                guiPvP(board, playerToken, isOver, finscore, [7-row, column]);
-                board(row, column) = playerToken;
-                %Animation:
-%                 h = findobj('Name','viergewinnt');
-%                 animation(h, [7-row, column], playerToken)
-            end
-        end
-
-    end
-end
-
-
 function finscore = KIvKI_noGUI(board, playerToken)
     for k = 1:42
         playerToken = playerToken*-1; 
@@ -176,3 +116,59 @@ function finscore = KIvKI_noGUI(board, playerToken)
         end
     end
 end
+
+%Für Spiel verwendet
+function PvP_GUI(board, playerToken)
+
+    i = 0;
+    while i <= 42
+        if isnan(board) %falls Spiel beendet wurde
+            break
+        end
+        playerToken = playerToken*-1;
+        i = i+1;
+        [isOver, finscore] = evaluateBoard(board);
+        if isOver == 1
+            disp("Spieler " + num2str(playerToken) + " hat gewonnen!");
+            i = 1;
+            board = guiGame(board, playerToken, isOver, finscore); %damit letztes Token angezeigt wird
+            continue
+        end
+        [board, mode] = guiGame(board, playerToken, isOver, finscore);
+        if mode == "menu"
+            return
+        end
+    end
+    
+end
+
+function PvKI_GUI(board, playerToken)
+    i = 0;
+    while i <= 42
+        if isnan(board) %falls Spiel beendet wurde
+            break;
+        end
+        playerToken = playerToken*-1;
+        i = i+1;
+        [isOver, finscore] = evaluateBoard(board);
+        if isOver == 1
+            disp("Spieler " + num2str(playerToken) + " hat gewonnen!");
+            i = 1;
+            board = guiGame(board, playerToken, isOver, finscore); %damit letztes Token angezeigt wird
+            playerToken = playerToken*-1;
+            continue;
+        else
+            if playerToken == 1     %Spieler am Zug
+                board = guiGame(board, playerToken, isOver);
+            else                    %Ki am Zug
+                disp("!!!KI AM ZUG!!!")
+                [~, column] = miniMaxHeuristic(board, playerToken, 4);
+                row = 6 - sum(abs(board(:,column)));
+                guiGame(board, playerToken, isOver, finscore, [7-row, column]);
+                board(row, column) = playerToken;
+            end
+        end
+
+    end
+end
+

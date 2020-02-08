@@ -5,8 +5,7 @@ function pvki(board, playerToken)
         i = i+1;
         [isOver, finscore] = evaluateBoard(board);
         if isOver == 1
-            disp("Spieler " + num2str(playerToken) + " hat gewonnen!");
-            i = 0; %HIER 0 ODER 1???
+            i = 0;
             board = guiGame(board, playerToken, isOver, finscore); %damit letztes Token angezeigt wird
             playerToken = playerToken*-1;
             continue

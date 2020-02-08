@@ -1,6 +1,6 @@
 function [bestScore, bestMove] = miniMaxHeuristic(board, playerToken, depth) %falls mit depth -> minimaxNR
     bestMove = 0;
-    [isOver, finscore] = evaluateBoard(board,depth);
+    [isOver, finscore] = evaluateBoard(board);
 	if isOver == 1 %sauber einbauen
 		bestScore = finscore*depth;
     elseif depth == 0 %abbruch minimax falls depth > verfügbare Züge?

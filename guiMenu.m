@@ -21,7 +21,7 @@ function mode = guiMenu()
     text(4.4,4.4, '2 Spieler', 'FontSize', 20, 'HorizontalAlignment', 'left', 'Color', [1 1 1], 'BackgroundColor', [0 0 0], 'Margin', 8, 'Tag','clickable', 'ButtonDownFcn', {@mode, h, '2 Spieler'});
 
     %Spiel beenden
-    text(4,3.1, 'Beenden', 'FontSize', 18, 'HorizontalAlignment', 'center', 'Color', [1 1 1], 'BackgroundColor', [0 0 0], 'Tag','clickable','ButtonDownFcn',@quit);
+    text(4,3.1, 'Beenden', 'FontSize', 17, 'HorizontalAlignment', 'center', 'Color', [1 1 1], 'BackgroundColor', [0 0 0], 'Margin', 4, 'Tag','clickable','ButtonDownFcn',@quit);
     
     %Credits
     credits = "Michel Sabbatini & Simona Borghi" + newline + "EF Informatik | Nicolas Ruh | NKSA" + newline + "09.02.2020";
@@ -40,7 +40,7 @@ function mode(obj, evt, h, mode)
     uiresume(h)
 end
 
-function quit(obj, evt, h)
+function quit(obj, evt)
     h = findobj('Name','4 Gewinnt');
     close(h)
 end

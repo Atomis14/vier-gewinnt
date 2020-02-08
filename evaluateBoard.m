@@ -1,4 +1,4 @@
-function [isOver, finscore] = evaluateBoard(board,depth)
+function [isOver, finscore] = evaluateBoard(board)
 %Hat jemand gewonnen? Geraden und Diagonalen ueberpruefen und ob Spielfeld
 %voll
 %board: Spielfeld-Matrize als Uebergabewert, isOver: Spielstand, finscore: minimax-auszahlung/ wer gewonnen hat; momentan 1/-1 statt 10/-10 
@@ -12,6 +12,7 @@ finscore = NaN;
 if (sum(abs(board(:))) == 42)
     isOver = 1;
     finscore = 0;
+    return
     %disp ('Brett voll: Unentschieden!') %wird nicht ausgegeben, nun sum(sum()) -> funktioniert?
 end
 
@@ -36,8 +37,6 @@ for col = 1:7
         end
     end
 end
-
-%TODO Diagonalen ueberpruefen; mit diag arbeiten
 
 for i = -3:3 %diagonale geraden
     diagonalL = diag(board,i);

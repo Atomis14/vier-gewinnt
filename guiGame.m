@@ -1,14 +1,14 @@
-function [newboard, mode] = guiGame(board,playerType,isOver,finscore, row)
+function [newboard, mode] = guiGame(board, playerType, isOver, finscore, row)
 
     h = findobj('Name','4 Gewinnt');
 
     board = rot90(board,3); %Display-Koordinaten wie Lesefluss (nicht wie Matrix)
     h.UserData.b = board;   %Wichtige Werte in UserData speichern, damit sie in den Callback-Funktionen zugänglich sind
     h.UserData.p = playerType;
-    updateBoard(h); %aktuelles board auf die figure zeichnen, leere Felder clickable machen
-    mode = h.UserData.mode;
+    updateBoard(h, isOver); %aktuelles board auf die figure zeichnen, leere Felder clickable machen
+    mode = h.UserData.mode; %1 oder 2 Spieler oder Menü
     
-    if h.UserData.mode == "menu"
+    if h.UserData.mode == "menu"    %Funktion beenden falls Menü geklikt
         delete(gca)
         newboard = zeros(6,7);
         mode = "menu";
@@ -32,7 +32,7 @@ end
 
 % Hilfsfunktionen und Callbacks%%%%%%%%%%%%%%%%
 
-function updateBoard(h)
+function updateBoard(h, isOver)
 %Zeichnet das aktuelle Board (gespeichert in UserData) auf die figure
 
     delete(findobj(gca,'Type','text')); %alte Einträge löschen
@@ -59,29 +59,28 @@ function updateBoard(h)
     text(7.5,0, 'Menü', 'FontSize', 14, 'HorizontalAlignment', 'right', 'Color', [1 1 1], 'BackgroundColor', [0 0 0], 'Tag','clickable','ButtonDownFcn',@menu);
     
     %Spieler-Anzeige
-    if player == 1
-        name = "Rot";
+    if isOver == 1
+        message = "Spiel vorbei";
+        color = [0 0 0];
+    elseif player == 1
+        message = "Rot ist dran";
         color = [1 0 0];
     else
-        name = "Grün";
+        message = "Grün ist dran";
         color = [0 0.8 0];
     end
-    text(4,0, [name + ' ist dran'], 'FontSize', 20, 'HorizontalAlignment', 'center', 'Color', color)
+    text(4,0, message, 'FontSize', 20, 'HorizontalAlignment', 'center', 'Color', color)
     
-    % Fill in the marks
-    for i=1:7
+    for i=1:7   %für jede Spalte
         %Buttons platzieren
-        
-        if(sum(abs(board(i,:))) < 6)    %Falls Zeile noch frei
+        if sum(abs(board(i,:))) == 6 || isOver == 1 || (h.UserData.mode == "1 Spieler" && player == -1)
+            text(i,7, '  v  ', 'FontSize', 17, 'HorizontalAlignment', 'center', 'Margin', 6, 'Color', [1 1 1], 'BackgroundColor', [0.8 0.8 0.8])
+        else
             col = sum(abs(board(i,:)))+1;
             linindex = sub2ind(size(board),i,col);
-            rectangle('Position',[i-0.45 7 0.9 0.5],'FaceColor',[0.2 0.2 0.2],...
-                   'UserData',linindex, 'Tag','clickable','ButtonDownFcn',@clickedCallback);
-        else %Falls Zeile voll
-            rectangle('Position',[i-0.45 7 0.9 0.5],'FaceColor',[0.9 0.9 0.9]);
-        end
-       
-
+            text(i,7, '  v  ', 'FontSize', 17, 'HorizontalAlignment', 'center', 'Margin', 6, 'Color', [1 1 1], 'BackgroundColor', [0.2 0.2 0.2], ...
+               'UserData',linindex, 'Tag','clickable','ButtonDownFcn',@clickedCallback);
+        end    
         %Spielsteine einfüllen
         for j=1:6           
             if board(i,j)==1           
@@ -91,10 +90,11 @@ function updateBoard(h)
             end
         end
     end
+    
     drawnow 
 end
 
-function clickedCallback(obj,evt,h) %vor dem Zeichnen muss schon der move überprüft werden
+function clickedCallback(obj,evt) %vor dem Zeichnen muss schon der move überprüft werden
 %Verarbeitet Klicks auf die Rechtecke im TicTacToe-Board
     h = findobj('Name','4 Gewinnt');
     h.UserData.m = obj.UserData; %geklickte Spalte %das ist der lineare Index des geklickten Rechtecks
@@ -104,9 +104,28 @@ function clickedCallback(obj,evt,h) %vor dem Zeichnen muss schon der move überpr
     uiresume(h);
 end
 
+function restart(obj,evt)
+    h = findobj('Name','4 Gewinnt');
+    h.UserData.b = zeros(7,6);
+    updateBoard(h, 0)
+    uiresume
+end
+
+function quit(obj,evt)
+    h = findobj('Name','4 Gewinnt');
+    close(h)
+end
+
+function menu(obj, evt)
+    h = findobj('Name','4 Gewinnt');
+    h.UserData.mode = 'menu';
+    uiresume
+end
+
 function finished(finscore)
     h = findobj('Name','4 Gewinnt');
-    disp(["finscore: " + finscore]);
+    
+    %Anzeige bei Spielende
     if finscore == 0
         message = "Unentschieden"
         bgcolor = [0.8 0.8 0.8 0.7];
@@ -129,20 +148,25 @@ function finished(finscore)
     drawnow
 end
 
-function restart(obj,evt,h)
-    h = findobj('Name','4 Gewinnt');
-    h.UserData.b = zeros(7,6);
-    updateBoard(h)
-    uiresume
-end
+function animation(h,linIndex,playerType)
 
-function quit(obj,evt,h)
-    h = findobj('Name','4 Gewinnt');
-    close(h)
-end
+    if playerType == 1
+        color = [1 0 0];
+    else
+        color = [0 0.8 0];
+    end
+    
+    if size(linIndex) == 1  %falls User Stein gesetzt hat
+        [i,j]=ind2sub(size(h.UserData.b),linIndex);
+    else                    %falls KI den Stein gesetzt hat
+        i = linIndex(2);    %Spalte
+        j = linIndex(1);    %Zeile
+    end
+ 
+    token = rectangle('Position', [i-0.5 6 1 1], 'Curvature', [1 1], 'FaceColor', color);
+    for k = 1:10*(6.5-j)
+        set(token, 'Position', [i-0.5 6-(0.1*k) 1 1]);
+        pause(0.01);
+    end
 
-function menu(obj, evt, h)
-    h = findobj('Name','4 Gewinnt');
-    h.UserData.mode = 'menu';
-    uiresume
 end

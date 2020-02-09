@@ -8,23 +8,23 @@ problems = 0;
 if testCase == 0 % 0 = um alle Cases zu testen
     for testCase = 1:8 
         [board, expR] = testBoard(testCase); %Board und erwartetes Resultat werden geholt
-        if evaluateBoard2(board) == expR 
+        if evaluateHeuristic(board) == expR 
             correct = correct + 1;
             %disp('correct')    
         else
             problems = problems + 1;
-            finscore = evaluateBoard2(board)
+            finscore = evaluateHeuristic(board)
             disp(['Problem at testCase: ' num2str(testCase)])
         end
     end
     disp(['Correct: ' num2str(correct) ' Problems: ' num2str(problems)])
 else %falls nur ein Einzellfall getestet wird
     [board, expR] = testBoard(testCase);
-    if evaluateBoard2(board) == expR
+    if evaluateHeuristic(board) == expR
         disp('correct')    
     else
         disp(['Problem at testCase: ' num2str(testCase)])
-        finscore = evaluateBoard2(board)
+        finscore = evaluateHeuristic(board)
     end
 end
 

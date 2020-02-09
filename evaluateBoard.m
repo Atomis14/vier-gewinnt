@@ -49,8 +49,10 @@ for i = 1:size(board(:))    %jedes ausgefuellte Feld
                 finscore = board(row,col)*100;
             end
         end            
-    end
+end
 
+
+% ---- vorheriger Code ----
 
 % %Reihen ueberpruefen
 % for row = 1:6
@@ -93,4 +95,4 @@ for i = 1:size(board(:))    %jedes ausgefuellte Feld
 % end
 
 
-%end
+end

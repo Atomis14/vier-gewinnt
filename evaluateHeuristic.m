@@ -1,8 +1,9 @@
 function finscore = evaluateHeuristic(board)
     finscore = 0;
 
-    %Durch alle leeren Felder durch und pr�fen ob mit 3 anderen 
-%     
+    %Durch alle leeren Felder durch und pr�fen ob mit 3 anderen 4er
+    %ergibt
+     
     for i = 1:size(board(:))    %jedes nicht ausgef�llte Feld
         if board(i) ~= 0
             continue;
@@ -12,14 +13,12 @@ function finscore = evaluateHeuristic(board)
         %Kolonne �berpr�fen
         if (row < 4) && abs(sum(board(row:row+3, col))) == 3
            finscore = finscore + sum(board(row:row+3, col));
-           %disp(['Kolonne gefunden an ' num2str(row)])
         end
         
         %Reihe überprüfen
         for clmn = col-3:col 
            if (clmn > 0) && (clmn < 5) && abs(sum(board(row, clmn:clmn+3))) == 3
                finscore = finscore + sum(board(row, clmn:clmn+3));
-               %disp(['Reihe gefunden an ' num2str(col)])
            end
         end
         
@@ -37,39 +36,5 @@ function finscore = evaluateHeuristic(board)
             end
         end            
     end
-
-
-% --- vorheriges evaluateHeuristic ---
-
-    %Reihen ueberpruefen
-%     for row = 1:6
-%         for col = 1:4
-%             if abs(sum(board(row, col:col+3))) == 3
-%                 finscore = finscore + sum(board(row, col:col+3));
-%             end
-%         end
-%     end
-
-    %Kolonnen ueberpruefen
-%     for col = 1:7
-%         for row = 1:3
-%             if abs(sum(board(row:row+3,col))) == 3
-%                 finscore = finscore + sum(board(row:row+3,col));
-%             end
-%         end
-%     end
-% 
-%     for i = -3:3 %diagonale geraden
-%         diagonalL = diag(board,i);
-%         diagonalR = diag(fliplr(board),i);
-%         for k = 1:(length(diagonalL)-3)
-%             if abs(sum(diagonalL(k:k+3))) == 3
-%                 finscore = finscore + sum(diagonalL(k:k+3));
-%             end
-%             if abs(sum(diagonalR(k:k+3))) == 3
-%                 finscore = finscore + sum(diagonalR(k:k+3));
-%             end
-%         end
-%     end
     
 end

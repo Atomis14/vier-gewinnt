@@ -1,5 +1,5 @@
 function game()
-    
+%Haupt-Loop des Programms. Loop zählt bei jedem Menü-Aufruf 1 hoch
     while 1   
         [mode, level] = guiMenu();
         startPlayer = [-1,1];

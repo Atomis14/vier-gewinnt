@@ -19,7 +19,7 @@ function [bestScore, bestMove] = miniMaxPruningHeuristic(board, playerToken, alp
         
         ind = 6-sum(abs(board));    %Feld, auf das der Stein fallen würde
         branches = zeros(2,7);
-        for j = 1:7
+        for j = 1:7 %Possibility-Werte für jede Spalte durchgehen
             if ind(j) == 0
                 branches(2,j) = j;
                 continue
@@ -29,7 +29,6 @@ function [bestScore, bestMove] = miniMaxPruningHeuristic(board, playerToken, alp
         end
         branches = sortrows(branches.',1,'descend').';  %Matrix nach dem Possibility-Wert sortieren
         
-%           for i = [4 3 5 2 6 1 7]
         for i = branches(2,:)   %in der zweiten Zeile sind die Spalten, nach possibility-Wert sortiert
             if sum(abs(board(:,i))) ~= 6 %Spalte noch nicht voll
                 childboard = board;

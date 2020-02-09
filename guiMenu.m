@@ -24,9 +24,9 @@ function [mode, level] = guiMenu()
     %Level-Auswahl
     h.UserData.level = 1;   %Standard-Level setzen
     text(4.05,5.4, 'Schwierigkeit der KI', 'FontSize', 13, 'HorizontalAlignment', 'center', 'Color', [0 0 0])
-    h.UserData.level1 = text(3.1,4.9, ' 1 ', 'FontSize', 16, 'HorizontalAlignment', 'left', 'Color', [1 1 1], 'BackgroundColor', [0 0 0], 'Margin', 4, 'Tag','clickable', 'ButtonDownFcn', {@level, h, 1})
-    h.UserData.level2 = text(3.9,4.9, ' 2 ', 'FontSize', 16, 'HorizontalAlignment', 'left', 'Color', [1 1 1], 'BackgroundColor', [0.4 0.4 0.4], 'Margin', 4, 'Tag','clickable', 'ButtonDownFcn', {@level, h, 2})
-    h.UserData.level3 = text(4.7,4.9, ' 3 ', 'FontSize', 16, 'HorizontalAlignment', 'left', 'Color', [1 1 1], 'BackgroundColor', [0.4 0.4 0.4], 'Margin', 4, 'Tag','clickable', 'ButtonDownFcn', {@level, h, 3})
+    h.UserData.level1 = text(3.1,4.9, ' 1 ', 'FontSize', 16, 'HorizontalAlignment', 'left', 'Color', [1 1 1], 'BackgroundColor', [0 0 0], 'Margin', 4, 'Tag','clickable', 'ButtonDownFcn', {@level, h, 1});
+    h.UserData.level2 = text(3.9,4.9, ' 2 ', 'FontSize', 16, 'HorizontalAlignment', 'left', 'Color', [1 1 1], 'BackgroundColor', [0.4 0.4 0.4], 'Margin', 4, 'Tag','clickable', 'ButtonDownFcn', {@level, h, 2});
+    h.UserData.level3 = text(4.7,4.9, ' 3 ', 'FontSize', 16, 'HorizontalAlignment', 'left', 'Color', [1 1 1], 'BackgroundColor', [0.4 0.4 0.4], 'Margin', 4, 'Tag','clickable', 'ButtonDownFcn', {@level, h, 3});
     text(7,5, 'Start', 'FontSize', 18, 'HorizontalAlignment', 'right', 'Color', [1 1 1], 'BackgroundColor', [0 0 0], 'Margin', 8, 'Tag','clickable', 'ButtonDownFcn', {@mode, h, '1 Spieler'})
     
     %Abtrennstrich
@@ -34,18 +34,17 @@ function [mode, level] = guiMenu()
     
     %%%%%%%2 Spieler Menü
     text(0.5,3.3, '2 Spieler', 'FontSize', 21, 'HorizontalAlignment', 'left', 'Color', [0 0 0])
-    %text(4.1,3, '2 Spieler gegeneinander', 'FontSize', 13, 'HorizontalAlignment', 'center', 'Color', [0 0 0]);
     text(7,3.3, 'Start', 'FontSize', 18, 'HorizontalAlignment', 'right', 'Color', [1 1 1], 'BackgroundColor', [0 0 0], 'Margin', 8, 'Tag','clickable', 'ButtonDownFcn', {@mode, h, '2 Spieler'})
     
     %Abtrennstrich
     rectangle('Position',[0 2.4 7.2 0.05],'LineWidth',0.3, 'FaceColor', [0 0 0], 'EdgeColor', [0 0 0])
     
-    %Spiel beenden
+    %Spiel beenden-Button
     text(4,1.6, 'Beenden', 'FontSize', 17, 'HorizontalAlignment', 'center', 'Color', [1 1 1], 'BackgroundColor', [0 0 0], 'Margin', 4, 'Tag','clickable','ButtonDownFcn',@quit)
     
     %Credits
     credits = "Michel Sabbatini & Simona Borghi" + newline + "EF Informatik | Nicolas Ruh | NKSA" + newline + "09.02.2020";
-    text(4,0.2, credits, 'FontSize', 15, 'HorizontalAlignment', 'center', 'Color', [0 0 0])
+    text(4,0.2, credits, 'FontSize', 15, 'HorizontalAlignment', 'center', 'Color', [0.2 0.2 0.2])
     
     uiwait()    %warten, bis Starten-Button gedrückt wurde
     mode = h.UserData.mode;
@@ -54,18 +53,14 @@ function [mode, level] = guiMenu()
     
 end
 
-
+%Modus-Auswahl zurückgeben
 function mode(obj, evt, h, mode)
     h = findobj('Name','4 Gewinnt');
     h.UserData.mode = mode;
     uiresume(h)
 end
 
-function quit(obj, evt)
-    h = findobj('Name','4 Gewinnt');
-    close(h)
-end
-
+%Level-Auswahl zurückgeben und anzeigen
 function level(obj, evt, h, level)
     h = findobj('Name','4 Gewinnt');
     h.UserData.level = level;
@@ -82,8 +77,8 @@ function level(obj, evt, h, level)
     end
 end
 
-    
-    
-    
-    
-    
+%Programm beenden
+function quit(obj, evt)
+    h = findobj('Name','4 Gewinnt');
+    close(h)
+end 

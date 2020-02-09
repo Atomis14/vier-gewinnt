@@ -13,12 +13,13 @@ function pvki(board, playerToken, level)
             if playerToken == 1     %Spieler am Zug
                 [board, mode] = guiGame(board, playerToken, isOver);
             else                    %Ki am Zug
+                %je nach Level entsprechenden Algorithmus aufrufen
                 if level == 1
-                    [~, column] = miniMaxHeuristic(board, playerToken, 4);
+                    [~, column] = miniMax(board, playerToken, 3);
                 elseif level == 2
-                    [~, column] = miniMaxPruningHeuristic(board, playerToken, -Inf, Inf, 5);
+                    [~, column] = miniMaxHeuristic(board, playerToken, 4);
                 elseif level == 3
-                    [~, column] = miniMaxPruningHeuristic(board, playerToken, -Inf, Inf, 7);
+                    [~, column] = miniMaxPruningHeuristic(board, playerToken, -Inf, Inf, 6);
                 end
                 row = 6 - sum(abs(board(:,column)));
                 [~, mode] = guiGame(board, playerToken, isOver, finscore, [7-row, column]);

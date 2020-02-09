@@ -54,10 +54,15 @@ function updateBoard(h, isOver)
     player = h.UserData.p;
     
     %Modus-Anzeige
-    text(0.5,0, h.UserData.mode, 'FontSize', 14);
+    text(0.5,7.8, "Modus: " + h.UserData.mode, 'FontSize', 16)
+    
+    %Schwierigkeits-Anzeige falls 1-Spieler-Modus
+    if h.UserData.mode == "1 Spieler"
+        text(0.5,0, "Stufe: " + num2str(h.UserData.level), 'FontSize', 14)
+    end
     
     %Menü-Knopf
-    text(7.5,0, 'Menü', 'FontSize', 14, 'HorizontalAlignment', 'right', 'Color', [1 1 1], 'BackgroundColor', [0 0 0], 'Tag','clickable','ButtonDownFcn',@menu);
+    text(7.5,0, 'Menü', 'FontSize', 14, 'HorizontalAlignment', 'right', 'Color', [1 1 1], 'BackgroundColor', [0 0 0], 'Tag','clickable','ButtonDownFcn',@menu)
     
     %Spieler-Anzeige
     if isOver == 1
@@ -80,14 +85,14 @@ function updateBoard(h, isOver)
             col = sum(abs(board(i,:)))+1;
             linindex = sub2ind(size(board),i,col);
             text(i,7, '  v  ', 'FontSize', 17, 'HorizontalAlignment', 'center', 'Margin', 6, 'Color', [1 1 1], 'BackgroundColor', [0 0 0], ...
-               'UserData',linindex, 'Tag','clickable','ButtonDownFcn',@clickedCallback);
+               'UserData',linindex, 'Tag','clickable','ButtonDownFcn',@clickedCallback)
         end    
         %Spielsteine einfüllen
         for j=1:6           
             if board(i,j)==1           
-                rectangle('Position',[i-0.5 j-0.5 1 1], 'Curvature', [1 1], 'FaceColor', [1 0 0]);
+                rectangle('Position',[i-0.5 j-0.5 1 1], 'Curvature', [1 1], 'FaceColor', [1 0 0])
             elseif board(i,j)==-1
-                rectangle('Position',[i-0.5 j-0.5 1 1], 'Curvature', [1 1], 'FaceColor', [0 0.8 0]);
+                rectangle('Position',[i-0.5 j-0.5 1 1], 'Curvature', [1 1], 'FaceColor', [0 0.8 0])
             end
         end
     end
@@ -100,11 +105,11 @@ function clickedCallback(obj,evt) %vor dem Zeichnen muss schon der move überprüf
     h = findobj('Name','4 Gewinnt');
     h.UserData.m = obj.UserData; %geklickte Spalte %das ist der lineare Index des geklickten Rechtecks
     h.UserData.b(h.UserData.m)=h.UserData.p; %entsprechenden Wert (1/-1) dort ins board schreiben
-    %updateBoard(h); %geht, aber dann wird alles neu gezeichnet -> langsam
     animation(h,h.UserData.m,h.UserData.p); %den neuen Mark anzeigen
     uiresume(h);
 end
 
+%Feld leeren und anzeigen bei Restart
 function restart(obj,evt)
     h = findobj('Name','4 Gewinnt');
     h.UserData.b = zeros(7,6);
@@ -112,29 +117,31 @@ function restart(obj,evt)
     uiresume
 end
 
+%Programm beenden
 function quit(obj,evt)
     h = findobj('Name','4 Gewinnt');
     close(h)
 end
 
+%Menü anzeigen
 function menu(obj, evt)
     h = findobj('Name','4 Gewinnt');
     h.UserData.mode = 'menu';
     uiresume
 end
 
+%Anzeige bei Spielende
 function finished(finscore)
     h = findobj('Name','4 Gewinnt');
     
-    %Anzeige bei Spielende
     if finscore == 0
-        message = "Unentschieden"
+        message = "Unentschieden";
         bgcolor = [0.8 0.8 0.8 0.7];
     elseif finscore < 0
-        message = "Der Gewinner ist: Grün"
+        message = "Der Gewinner ist: Grün";
         bgcolor = [0 0.8 0 0.7];
     elseif finscore > 0
-        message = "Der Gewinner ist: Rot"
+        message = "Der Gewinner ist: Rot";
         bgcolor = [1 0 0 0.7];
     end
     rectangle('Position', [0.5 0.5 7 6], 'FaceColor', bgcolor);
@@ -149,6 +156,7 @@ function finished(finscore)
     drawnow
 end
 
+%Animation bei Platzierung des Spielsteins
 function animation(h,linIndex,playerType)
 
     %Farbe setzen

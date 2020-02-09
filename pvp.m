@@ -11,6 +11,7 @@ function pvp(board, playerToken)
         if isOver == 1
             i = 1;
             board = guiGame(board, playerToken, isOver, finscore); %damit letztes Token angezeigt wird
+            playerToken = playerToken*-1;
             continue
         end
         [board, mode] = guiGame(board, playerToken, isOver, finscore);

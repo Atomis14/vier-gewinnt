@@ -1,4 +1,4 @@
-function [bestScore, bestMove] = miniMaxHeuristic(board, playerToken, depth) %falls mit depth -> minimaxNR
+function [bestScore, bestMove] = miniMaxHeuristic(board, playerToken, depth)
     bestMove = 0;
     [isOver, finscore] = evaluateBoard(board);
 	if isOver == 1 %sauber einbauen

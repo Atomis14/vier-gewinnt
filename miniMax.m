@@ -1,9 +1,9 @@
-function [bestScore, bestMove] = miniMax(board, playerToken, depth) %falls mit depth -> minimaxNR
+function [bestScore, bestMove] = miniMax(board, playerToken, depth)
     
     bestMove = 0;
     [isOver, finscore] = evaluateBoard(board);
 	if isOver == 1
-		bestScore = finscore*depth;
+		bestScore = finscore*depth; %mit Tiefe multiplizieren um schneller zu gewinnen
     elseif depth == 0 
         bestScore = 0;
     else				
@@ -22,12 +22,12 @@ function [bestScore, bestMove] = miniMax(board, playerToken, depth) %falls mit d
                     bestScore = score;
                     bestMove = i;
                 %FALLS MEHRERE GLEICHGUT -> zufall ob bestScore ersetzt wird oder nicht    
-%                 elseif (playerToken == 1 && score == bestScore) || ...    
-%                     (playerToken == - 1 && score == bestScore)
-%                     if rand(1)>0.5 %andere Variante: falls mit Vektor -> bester oder zufälliger aussuchen
-%                        bestScore = score;
-%                        bestMove = i; 
-%                     end
+                elseif (playerToken == 1 && score == bestScore) || ...    
+                    (playerToken == - 1 && score == bestScore)
+                    if rand(1)>0.5 %andere Variante: falls mit Vektor -> bester oder zufälliger aussuchen
+                       bestScore = score;
+                       bestMove = i; 
+                    end
                  end               
             end
         end

@@ -2,8 +2,6 @@ function [correct, problems] = testHeuristic(testCase)
 %correct: Anz. richtig geloester testCases, problems: Anz. Probleme, testCase:
 %verschiedene Tests, expR = expectedResult
 
-
-
 correct = 0;
 problems = 0;
 
@@ -36,7 +34,7 @@ end
 
 function [board, expR] = testBoard(testCase)
 % TestBoards werden hier geschrieben, gibt ein board und das erwartete
-% Resultat zurück; bei der for-Schleife "End-Zahl" der Anz. Cases anpassen
+% Resultat zurück;
 
 
 board = zeros(6,7);

@@ -6,7 +6,7 @@ function testKIvKI()
     
     tic;
     
-    for i = 1:1000
+    for i = 1:50
         playerToken = playerToken*-1;
         winner = controllerKIvKI(zeros(6,7), playerToken);
         if winner > 0
@@ -16,6 +16,7 @@ function testKIvKI()
         elseif winner == 0
             drawn = drawn+1;
         end
+        disp("Anzahl: " + i)
     end
     
     disp("Unentschieden: " + drawn);

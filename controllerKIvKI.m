@@ -5,11 +5,11 @@ function finscore = controllerKIvKI(board, playerToken)
         playerToken = playerToken*-1; 
 
         if playerToken == -1
-            [~, column] = miniMaxHeuristic(board, playerToken, 2);
+            [~, column] = miniMaxHeuristic(board, playerToken, 3);
             row = 6 - sum(abs(board(:,column)));
             board(row, column) = playerToken;
         else                    
-            [~, column] = miniMaxPruning(board, 1, -Inf, Inf, 2);
+            [~, column] = miniMaxPruningHeuristic(board, 1, -Inf, Inf, 3);
             row = 6 - sum(abs(board(:,column)));
             board(row, column) = playerToken;
         end

@@ -1,10 +1,11 @@
 function [newboard, mode] = guiGame(board, playerType, isOver, finscore, row)
 
     h = findobj('Name','4 Gewinnt');
-
+    
     board = rot90(board,3); %Display-Koordinaten wie Lesefluss (nicht wie Matrix)
     h.UserData.b = board;   %Wichtige Werte in UserData speichern, damit sie in den Callback-Funktionen zugänglich sind
     h.UserData.p = playerType;
+    
     updateBoard(h, isOver); %aktuelles board auf die figure zeichnen, leere Felder clickable machen
     mode = h.UserData.mode; %1 oder 2 Spieler oder Menü
     
@@ -78,7 +79,7 @@ function updateBoard(h, isOver)
         else
             col = sum(abs(board(i,:)))+1;
             linindex = sub2ind(size(board),i,col);
-            text(i,7, '  v  ', 'FontSize', 17, 'HorizontalAlignment', 'center', 'Margin', 6, 'Color', [1 1 1], 'BackgroundColor', [0.2 0.2 0.2], ...
+            text(i,7, '  v  ', 'FontSize', 17, 'HorizontalAlignment', 'center', 'Margin', 6, 'Color', [1 1 1], 'BackgroundColor', [0 0 0], ...
                'UserData',linindex, 'Tag','clickable','ButtonDownFcn',@clickedCallback);
         end    
         %Spielsteine einfüllen

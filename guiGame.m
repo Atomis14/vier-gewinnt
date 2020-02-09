@@ -151,6 +151,7 @@ end
 
 function animation(h,linIndex,playerType)
 
+    %Farbe setzen
     if playerType == 1
         color = [1 0 0];
     else
@@ -164,6 +165,7 @@ function animation(h,linIndex,playerType)
         j = linIndex(1);    %Zeile
     end
  
+    %eigentliche Animation ausführen
     token = rectangle('Position', [i-0.5 6 1 1], 'Curvature', [1 1], 'FaceColor', color);
     for k = 1:10*(6.5-j)
         set(token, 'Position', [i-0.5 6-(0.1*k) 1 1]);

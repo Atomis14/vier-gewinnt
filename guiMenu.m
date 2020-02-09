@@ -14,20 +14,20 @@ function [mode, level] = guiMenu()
     xlim([0.5 7.5]); ylim([0.5 7.5]);
     
     %Titel
-    text(3.8,7, '4 Gewinnt', 'FontSize', 43, 'HorizontalAlignment', 'center', 'Color', [0 0 0]);
+    text(3.8,7, '4 Gewinnt', 'FontSize', 43, 'HorizontalAlignment', 'center', 'Color', [0 0 0])
     
     %Abtrennstrich
     rectangle('Position',[0 5.8 7.2 0.05],'LineWidth',0.3, 'FaceColor', [0 0 0], 'EdgeColor', [0 0 0])
     
     %%%%%%%1 Spieler Menü
-    text(0.5,5, '1 Spieler', 'FontSize', 21, 'HorizontalAlignment', 'left', 'Color', [0 0 0]);
+    text(0.5,5, '1 Spieler', 'FontSize', 21, 'HorizontalAlignment', 'left', 'Color', [0 0 0])
     %Level-Auswahl
     h.UserData.level = 1;   %Standard-Level setzen
-    text(4.05,5.4, 'Schwierigkeit der KI', 'FontSize', 13, 'HorizontalAlignment', 'center', 'Color', [0 0 0]);
-    h.UserData.level1 = text(3.1,4.9, ' 1 ', 'FontSize', 16, 'HorizontalAlignment', 'left', 'Color', [1 1 1], 'BackgroundColor', [0 0 0], 'Margin', 4, 'Tag','clickable', 'ButtonDownFcn', {@level, h, 1});
-    h.UserData.level2 = text(3.9,4.9, ' 2 ', 'FontSize', 16, 'HorizontalAlignment', 'left', 'Color', [1 1 1], 'BackgroundColor', [0.4 0.4 0.4], 'Margin', 4, 'Tag','clickable', 'ButtonDownFcn', {@level, h, 2});
-    h.UserData.level3 = text(4.7,4.9, ' 3 ', 'FontSize', 16, 'HorizontalAlignment', 'left', 'Color', [1 1 1], 'BackgroundColor', [0.4 0.4 0.4], 'Margin', 4, 'Tag','clickable', 'ButtonDownFcn', {@level, h, 3});
-    text(7,5, 'Start', 'FontSize', 18, 'HorizontalAlignment', 'right', 'Color', [1 1 1], 'BackgroundColor', [0 0 0], 'Margin', 8, 'Tag','clickable', 'ButtonDownFcn', {@mode, h, '1 Spieler'});
+    text(4.05,5.4, 'Schwierigkeit der KI', 'FontSize', 13, 'HorizontalAlignment', 'center', 'Color', [0 0 0])
+    h.UserData.level1 = text(3.1,4.9, ' 1 ', 'FontSize', 16, 'HorizontalAlignment', 'left', 'Color', [1 1 1], 'BackgroundColor', [0 0 0], 'Margin', 4, 'Tag','clickable', 'ButtonDownFcn', {@level, h, 1})
+    h.UserData.level2 = text(3.9,4.9, ' 2 ', 'FontSize', 16, 'HorizontalAlignment', 'left', 'Color', [1 1 1], 'BackgroundColor', [0.4 0.4 0.4], 'Margin', 4, 'Tag','clickable', 'ButtonDownFcn', {@level, h, 2})
+    h.UserData.level3 = text(4.7,4.9, ' 3 ', 'FontSize', 16, 'HorizontalAlignment', 'left', 'Color', [1 1 1], 'BackgroundColor', [0.4 0.4 0.4], 'Margin', 4, 'Tag','clickable', 'ButtonDownFcn', {@level, h, 3})
+    text(7,5, 'Start', 'FontSize', 18, 'HorizontalAlignment', 'right', 'Color', [1 1 1], 'BackgroundColor', [0 0 0], 'Margin', 8, 'Tag','clickable', 'ButtonDownFcn', {@mode, h, '1 Spieler'})
     
     %Abtrennstrich
     rectangle('Position',[0 4.1 7.2 0.03],'LineWidth',0.1, 'FaceColor', [0.6 0.6 0.6], 'EdgeColor', [0.6 0.6 0.6])
@@ -69,7 +69,6 @@ end
 function level(obj, evt, h, level)
     h = findobj('Name','4 Gewinnt');
     h.UserData.level = level;
-    disp(level)
     %Buttons färben
     set(h.UserData.level1, 'BackgroundColor', [0.4 0.4 0.4]);
     set(h.UserData.level2, 'BackgroundColor', [0.4 0.4 0.4]);

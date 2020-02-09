@@ -1,4 +1,4 @@
-function finscore = evaluateBoard2(board)
+function finscore = evaluateHeuristic(board)
     finscore = 0;
 
     %Durch alle leeren Felder durch und pr�fen ob mit 3 anderen 

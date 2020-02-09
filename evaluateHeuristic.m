@@ -16,7 +16,7 @@ function finscore = evaluateHeuristic(board)
         end
         
         %Reihe überprüfen
-        for clmn = col-3:col %Problem? korrigiert: wenn alle leeren cols durchgegangen werden, kommen durch +/- 3 spalten doppelt
+        for clmn = col-3:col 
            if (clmn > 0) && (clmn < 5) && abs(sum(board(row, clmn:clmn+3))) == 3
                finscore = finscore + sum(board(row, clmn:clmn+3));
                %disp(['Reihe gefunden an ' num2str(col)])
@@ -39,6 +39,7 @@ function finscore = evaluateHeuristic(board)
     end
 
 
+% --- vorheriges evaluateHeuristic ---
 
     %Reihen ueberpruefen
 %     for row = 1:6

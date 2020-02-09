@@ -2,15 +2,14 @@ function [correct, problems] = testMiniMax(testCase)
 %correct: Anz. richtig geloester testCases, problems: Anz. Probleme, testCase:
 %verschiedene Tests, expR = expectedResult
 
-% CommandWindow -> i ha kei Ahnig woher da "ans" chont wo usgeh werd
 
 correct = 0;
 problems = 0;
 
 if testCase == 0 % 0 = um alle Cases zu testen
-    for testCase = 1:6 % <- manuel an Case-Anzahl(unten) anpassen nicht vergessen !!!
+    for testCase = 1:6 
         [board, expR] = testBoardMiniMax(testCase); %Board und erwartetes Resultat werden geholt
-        [~, column] = miniMax(board, -1, 2);
+        [~, column] = miniMax(board, -1, 3);
         if column == expR 
             correct = correct + 1;
             %disp('correct')    
@@ -36,11 +35,11 @@ end
 
 function [board, expR] = testBoardMiniMax(testCase)
 % testBoardMiniMaxs werden hier geschrieben, gibt ein board und das erwartete
-% Resultat zurück; bei der for-Schleife "End-Zahl" der Anz. Cases anpassen
+% Resultat zurück;
 
 
 board = zeros(6,7); %erstellt board
-switch testCase %beliebig viele Tests schreiben, board und expR angeben! und cases dürfen keine luecken haben (3_5 6..)
+switch testCase %beliebig viele Tests schreiben
     case 1 %waagrecht
         board(6, 1:3) = -1;
         expR = 4;
@@ -49,7 +48,7 @@ switch testCase %beliebig viele Tests schreiben, board und expR angeben! und cas
         board(6, 5:7) = 1;
         expR = 4;
         
-    case 3 %senkrecht PROBLEM-> Zug wird als gleichwertig empfunden und zufällig gewählt -> was war die Lösung...?
+    case 3 
         board(4:6, 5) = -1;
         expR = 5; 
         
